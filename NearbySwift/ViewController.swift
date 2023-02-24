@@ -9,13 +9,14 @@ import UIKit
 
 class ViewController: UIViewController {
 
-	let appDelegate = UIApplication.shared.delegate as! AppDelegate
+	var appDelegate:AppDelegate?
 	var appData:AppData?
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		self.appData = appDelegate.appData
+		self.appDelegate = UIApplication.shared.delegate as! AppDelegate
+		self.appData = appDelegate?.appData
 		self.title = "NearbySwift"
 	}
 

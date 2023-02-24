@@ -15,6 +15,9 @@
 		FF4D597529A5C6B500ED3923 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF4D597329A5C6B500ED3923 /* LaunchScreen.storyboard */; };
 		FF4D597D29A5DAD200ED3923 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D597C29A5DAD200ED3923 /* AppData.swift */; };
 		FF4D599F29A5FCE800ED3923 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4D599E29A5FCE800ED3923 /* Article.swift */; };
+		FFFC536329A89CAB0017F5C9 /* TableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFC536229A89CAB0017F5C9 /* TableVC.swift */; };
+		FFFC536629A8A5C70017F5C9 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFC536429A8A5C70017F5C9 /* CustomCell.swift */; };
+		FFFC536729A8A5C70017F5C9 /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FFFC536529A8A5C70017F5C9 /* CustomCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		FF4D597629A5C6B500ED3923 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FF4D597C29A5DAD200ED3923 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		FF4D599E29A5FCE800ED3923 /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
+		FFFC536229A89CAB0017F5C9 /* TableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableVC.swift; sourceTree = "<group>"; };
+		FFFC536429A8A5C70017F5C9 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		FFFC536529A8A5C70017F5C9 /* CustomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +75,9 @@
 				FF4D597629A5C6B500ED3923 /* Info.plist */,
 				FF4D597C29A5DAD200ED3923 /* AppData.swift */,
 				FF4D599E29A5FCE800ED3923 /* Article.swift */,
+				FFFC536229A89CAB0017F5C9 /* TableVC.swift */,
+				FFFC536429A8A5C70017F5C9 /* CustomCell.swift */,
+				FFFC536529A8A5C70017F5C9 /* CustomCell.xib */,
 			);
 			path = NearbySwift;
 			sourceTree = "<group>";
@@ -133,6 +142,7 @@
 			files = (
 				FF4D597529A5C6B500ED3923 /* LaunchScreen.storyboard in Resources */,
 				FF4D597229A5C6B500ED3923 /* Assets.xcassets in Resources */,
+				FFFC536729A8A5C70017F5C9 /* CustomCell.xib in Resources */,
 				FF4D597029A5C6B200ED3923 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -147,7 +157,9 @@
 				FF4D596D29A5C6B200ED3923 /* ViewController.swift in Sources */,
 				FF4D596929A5C6B200ED3923 /* AppDelegate.swift in Sources */,
 				FF4D596B29A5C6B200ED3923 /* SceneDelegate.swift in Sources */,
+				FFFC536329A89CAB0017F5C9 /* TableVC.swift in Sources */,
 				FF4D597D29A5DAD200ED3923 /* AppData.swift in Sources */,
+				FFFC536629A8A5C70017F5C9 /* CustomCell.swift in Sources */,
 				FF4D599F29A5FCE800ED3923 /* Article.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

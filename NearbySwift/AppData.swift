@@ -13,7 +13,8 @@ class AppData: NSObject {
 	var heading: CLLocationDirection = 0.0
 	var course: CLLocationDirection = 0.0
 	var speed: CLLocationSpeed = 0.0
-	var articles:NSMutableArray = []
-	
+	var articles:[Article] = []
+//	var articles:NSMutableArray = []
+
 	override init() {}
 }

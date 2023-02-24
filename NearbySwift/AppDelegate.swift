@@ -45,9 +45,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 		// Use this method to release any resources that were specific to the discarded scenes, as they will not return.
 	}
 
-//}
-
-//extension AppDelegate: CLLocationManagerDelegate {
 	func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
 		appData.heading = newHeading.trueHeading
 		print("ヘディング:\(appData.heading.description)")
@@ -56,10 +53,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		appData.coordinate = locations[0].coordinate
 		_replDebugPrintln("緯度:\(appData.coordinate.latitude) 経度:\(appData.coordinate.longitude)")
+		// POI情報のパース
 		GetAndParseInformation()
-//		for location in locations {
-//				print("緯度:\(location.coordinate.latitude) 経度:\(location.coordinate.longitude) 取得時刻:\(location.timestamp.description)")
-//		}
+		// リストの再表示
+		var tableVC:UITableViewController = UIApplication.shared.keyWindow?.rootViewController as! UITableViewController
+		tableVC.tableView.reloadData()
 	}
 	
 	func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -111,8 +109,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 			dump(content.data(using: .utf8)!)
 			parser = XMLParser(data: content.data(using: .utf8)!)
 			parser.delegate = self
-			print(parser.parse())
-			dump(appData.articles)
+			if parser.parse() {
+				appData.articles.sort { Int($0.distance)! < Int($1.distance)! }
+				dump(appData.articles)
+				
+			}
 		}
 		catch let error {
 			_replDebugPrintln("do-catch error")
@@ -137,7 +138,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 
 		if (elementName == "article"){
 			anArticle = Article()
-			appData.articles.add(anArticle)
+			appData.articles.append(anArticle!)
 		}
 		if (anArticle != nil) {
 			var exist = false
