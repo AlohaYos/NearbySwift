@@ -12,14 +12,14 @@ import CoreLocation
 class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLocationManagerDelegate {
 
 	var appData = AppData()
-	var locationManager = CLLocationManager()
+	var locationManager: CLLocationManager!
 	var isLocationChanged: Bool = false
 	var currentElement:String? = nil
 	var anArticle:Article? = nil
 	var parser:XMLParser!
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
+		locationManager = CLLocationManager()
 		isLocationChanged = false
 		locationManager.delegate = self
 		locationManager.activityType = .fitness
@@ -103,39 +103,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 										 nearbyDistance
 		) as String
 		print(urlString)
-		guard let url = URL(string: urlString) else { return }
+		let url = URL(string: urlString)
 		
 		do {
 			var content = try String(contentsOf:URL(string: urlString)!)
 			print(content)
-			let parser = XMLParser(data: content.data(using: .utf8)!)
+			dump(content.data(using: .utf8)!)
+			parser = XMLParser(data: content.data(using: .utf8)!)
 			parser.delegate = self
-			parser.parse()
+			print(parser.parse())
 			dump(appData.articles)
-
-//			if let xmlParser = XMLParser(contentsOf: URL(string: urlString)!) {
-//				self.parser = xmlParser
-//				self.parser.delegate = self
-//				self.parser.parse()
-//				_replDebugPrintln("パース成功")
-//				dump(appData.articles)
-//			}
-//			else {
-//				_replDebugPrintln("パース失敗2")
-//			}
 		}
 		catch let error {
 			_replDebugPrintln("do-catch error")
 		}
 	}
 
+	func parserDidStartDocument(_ parser: XMLParser) {
+		_replDebugPrintln("パース開始")
+	}
+	
+	func parserDidEndDocument(_ parser: XMLParser) {
+		_replDebugPrintln("パース終了")
+	}
+	
+	func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
+		_replDebugPrintln("パースエラー発生")
+		dump(parseError)
+	}
+	
 	// 開始タグを読み込んだ時よばれる - Start
-	func parser(parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject]) {
+	func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
 
 		if (elementName == "article"){
 			anArticle = Article()
 			appData.articles.add(anArticle)
-
+		}
+		if (anArticle != nil) {
 			var exist = false
 			switch elementName {
 			case "articleID":
@@ -159,11 +163,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 	}
 
 	//閉じタグを読み込んだ時よばれる - End
-	func parser(parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
+	func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
 
 		guard (currentElement != nil) else {return}
 		
-		switch currentElement {
+		switch elementName {
 		case "articleID":
 			anArticle?.articleID = currentElement!
 		case "title":
@@ -179,21 +183,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 		}
 		
 		currentElement = nil
-		
 	}
 
 	//タグ以外のテキストを読み込んだ時（タグとタグ間の文字列）
-	func parser(parser: XMLParser, foundCharacters string: String?) {
-
+	func parser(_ parser: XMLParser, foundCharacters string: String) {
 		guard (currentElement != nil) else {return}
 		guard (string != nil) else {return}
-		currentElement?.append(string!)
+		currentElement?.append(string)
 	}
 
-	func parserDidEndDocument(parser: XMLParser){
-		// ここで最終処理 entries
-	}
-	
 	// MARK: Sort Function
 	func DistanceSortClosestFirst(a1:Article, a2:Article) -> ComparisonResult {
 		let d1 = a1.distance
