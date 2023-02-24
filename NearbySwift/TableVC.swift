@@ -38,8 +38,11 @@ class TableVC: UITableViewController {
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		var selectedArticle:Article = (appData?.articles[indexPath.row])!
-		print("SELECTED: \(selectedArticle.title)")
 		
+		let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailVC") as! DetailVC
+		detailVC.anArticle = selectedArticle
+		detailVC.modalTransitionStyle = .flipHorizontal
+		self.present(detailVC, animated: true, completion: nil)
 	}
 }
 
