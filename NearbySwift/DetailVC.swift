@@ -70,5 +70,12 @@ class DetailVC: UIViewController, MKMapViewDelegate {
 		pinView.canShowCallout = true
 		return pinView
 	}
+	
+	func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+		let webVC = self.storyboard?.instantiateViewController(withIdentifier: "WebVC") as! WebVC
+		webVC.anArticle = self.anArticle
+		webVC.modalTransitionStyle = .flipHorizontal
+		self.present(webVC, animated: true, completion: nil)
+	}
 }
 
