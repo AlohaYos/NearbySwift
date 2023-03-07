@@ -20,13 +20,13 @@ class WebVC: UIViewController {
 		
 		self.appDelegate = (UIApplication.shared.delegate as! AppDelegate)
 		self.appData = appDelegate?.appData
-		self.title = "NearbySwift"
+		self.title = "詳細情報"
 
-		let safariButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: Selector(("safariButtonPushed")))
-		self.navigationController?.navigationItem.rightBarButtonItem = safariButton
-
-		let backButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: Selector(("backButtonPushed")))
-		self.navigationController?.navigationItem.rightBarButtonItem = safariButton
+		let safariButton = UIBarButtonItem(title: "Safari", style: .plain, target: self, action: Selector(("safariButtonPushed")))
+//		UIBarButtonItem(barButtonSystemItem: .save, target: self, action: Selector(("safariButtonPushed")))
+		self.navigationItem.rightBarButtonItem = safariButton
+		
+		
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -35,14 +35,9 @@ class WebVC: UIViewController {
 		webView.load(URLRequest(url: url!))
 	}
 
-	func safariButtonPushed() {
+	@objc func safariButtonPushed() {
 		let url:URL! = webView.url
 		UIApplication.shared.openURL(url)
 	}
-	
-	func backButtonPushed() {
-		dismiss(animated: true)
-	}
-
 }
 

@@ -20,9 +20,10 @@ class TableVC: UITableViewController {
 		
 		self.appDelegate = UIApplication.shared.delegate as! AppDelegate
 		self.appData = appDelegate?.appData
-		self.title = "NearbySwift"
+		self.title = "名所リスト"
 	}
 
+	// MARK: table view
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return appData?.articles.count ?? 0
 	}
@@ -41,8 +42,9 @@ class TableVC: UITableViewController {
 		
 		let detailVC = self.storyboard?.instantiateViewController(withIdentifier: "DetailVC") as! DetailVC
 		detailVC.anArticle = selectedArticle
-		detailVC.modalTransitionStyle = .flipHorizontal
-		self.present(detailVC, animated: true, completion: nil)
+		detailVC.modalTransitionStyle = .coverVertical
+		self.navigationController?.pushViewController(detailVC, animated: true)
+//		self.present(detailVC, animated: true, completion: nil)
 	}
 }
 

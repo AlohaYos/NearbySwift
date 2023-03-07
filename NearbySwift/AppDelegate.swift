@@ -45,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 		// Use this method to release any resources that were specific to the discarded scenes, as they will not return.
 	}
 
+	// MARK: location manager
 	func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
 		appData.heading = newHeading.trueHeading
 		print("ヘディング:\(appData.heading.description)")
@@ -52,11 +53,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 	
 	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		appData.coordinate = locations[0].coordinate
+		
+		/* */
+			var tmpCood = CLLocationCoordinate2D();
+			tmpCood.latitude = 35.658587;
+			tmpCood.longitude = 139.745425;
+			appData.coordinate = tmpCood;
+		/* */
+
 		_replDebugPrintln("緯度:\(appData.coordinate.latitude) 経度:\(appData.coordinate.longitude)")
 		// POI情報のパース
 		GetAndParseInformation()
 		// リストの再表示
-		var tableVC:UITableViewController = UIApplication.shared.keyWindow?.rootViewController as! UITableViewController
+		let navControl = UIApplication.shared.keyWindow?.rootViewController as! UINavigationController
+//		let tableVC = navControl.storyboard?.instantiateViewController(withIdentifier: "TableVC") as! TableVC
+		let tableVC = navControl.topViewController as! TableVC
 		tableVC.tableView.reloadData()
 	}
 	
@@ -90,8 +101,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, XMLParserDelegate, CLLoca
 			// 位置情報取得の開始処理
 			break
 		}
+		
+		Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: Selector(("timeoutJob")), userInfo: nil, repeats: false)
 	}
 
+	// MARK: timer
+	@objc func timeoutJob() {
+		locationManager.requestLocation()
+	}
+	
 	// MARK: Parser
 	func GetAndParseInformation() {
 		let nearbyDistance = 10000
